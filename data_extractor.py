@@ -5,17 +5,16 @@ from mysql.connector import Error
 
 def extract_data_from_mysql(host, user, password, database, output_format='parquet'):
     """
-    Extrae datos de MySQL y los guarda en el formato especificado
 
     Args:
-        host (str):
-        user (str): Ricardo Garcia fentanes
+        host (str): localhost
+        user (str): root
         password (str): M4nt1c0r4
         database (str): data_prueba_tecnica.csv
         output_format (str): data_prueba_tecnica2.csv
     """
     try:
-        # Conectar a MySQL
+
         connection = mysql.connector.connect(
             host=host,
             user=user,
@@ -51,7 +50,7 @@ if __name__ == "__main__":
     db_config = {
         "host": "localhost",
         "user": "root",
-        "password": "tu_contraseña",  # Cambiar por tu contraseña
+        "password": "PASSWORD",
         "database": "prueba_tecnica_db"
     }
 
