@@ -8,11 +8,11 @@ def extract_data_from_mysql(host, user, password, database, output_format='parqu
     Extrae datos de MySQL y los guarda en el formato especificado
 
     Args:
-        host (str): Host de la base de datos
-        user (str): Usuario de la base de datos
-        password (str): Contraseña del usuario
-        database (str): Nombre de la base de datos
-        output_format (str): Formato de salida (csv, parquet)
+        host (str):
+        user (str): Ricardo Garcia fentanes
+        password (str): M4nt1c0r4
+        database (str): data_prueba_tecnica.csv
+        output_format (str): data_prueba_tecnica2.csv
     """
     try:
         # Conectar a MySQL
