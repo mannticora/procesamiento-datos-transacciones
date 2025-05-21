@@ -3,8 +3,11 @@ import mysql.connector
 from mysql.connector import Error
 import os
 
-def load_data_to_my_sql(csv_path, host, user, password, database):
+
+def load_data_to_mysql(csv_path, host, user, password, database):
     """
+    Carga datos desde un archivo CSV a una base de datos MySQL
+
     Args:
         csv_path (str): Ruta del archivo CSV
         host (str): Host de la base de datos
@@ -14,34 +17,38 @@ def load_data_to_my_sql(csv_path, host, user, password, database):
     """
 
     try:
+        # Leer el archivo CSV
         df = pd.read_csv(csv_path)
 
+        # Conectar a MySQL
         connection = mysql.connector.connect(
             host=host,
-            user=user
+            user=user,
             password=password
         )
 
         cursor = connection.cursor()
-        #crea la base de datos
+
+        # Crear la base de datos si no existe
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database}")
         cursor.execute(f"USE {database}")
 
         # Crear tabla temporal para cargar todos los datos
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS raw_data (
-                id VARCHAR(255),
-                company_id VARCHAR(255),
-                company_name VARCHAR(255),
-                amount VARCHAR(255),
-                status VARCHAR(255),
-                created_at VARCHAR(255),
-                updated_at VARCHAR(255)
-            """)
+        CREATE TABLE IF NOT EXISTS raw_data (
+            id VARCHAR(255),
+            company_id VARCHAR(255),
+            company_name VARCHAR(255),
+            amount VARCHAR(255),
+            status VARCHAR(255),
+            created_at VARCHAR(255),
+            updated_at VARCHAR(255)
+        """)
+
+        # Limpiar tabla si ya existe
         cursor.execute("TRUNCATE TABLE raw_data")
 
-        #insertar datos
-
+        # Insertar datos
         for _, row in df.iterrows():
             sql = """
             INSERT INTO raw_data 
