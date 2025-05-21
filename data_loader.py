@@ -1,4 +1,7 @@
-
+import pandas as pd
+import mysql.connector
+from mysql.connector import Error
+import os
 
 def load_data_to_my_sql(csv_path, host, user, password, database):
     """
