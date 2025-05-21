@@ -9,11 +9,11 @@ def load_data_to_mysql(csv_path, host, user, password, database):
     Carga datos desde un archivo CSV a una base de datos MySQL
 
     Args:
-        csv_path (str): Ruta del archivo CSV
-        host (str): Host de la base de datos
-        user (str): Usuario de la base de datos
-        password (str): Contraseña del usuario
-        database (str): Nombre de la base de datos
+        csv_path (str): C:\Users\ricar\OneDrive\Escritorio\data_prueba_tecnica.csv
+        host (str): localhost
+        user (str): root
+        password (str): .M4nt1c0R4
+        database (str): data_prueba_tecnica
     """
 
     try:
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     db_config = {
         "host": "localhost",
         "user": "root",
-        "password": "tu_contraseña",  # Cambiar por tu contraseña
+        "password": ".M4nt1c0R4",
         "database": "prueba_tecnica_db"
     }
 

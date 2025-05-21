@@ -9,7 +9,7 @@ def extract_data_from_mysql(host, user, password, database, output_format='parqu
     Args:
         host (str): localhost
         user (str): root
-        password (str): M4nt1c0r4
+        password (str): .M4nt1c0R4
         database (str): data_prueba_tecnica.csv
         output_format (str): data_prueba_tecnica2.csv
     """
@@ -50,7 +50,7 @@ if __name__ == "__main__":
     db_config = {
         "host": "localhost",
         "user": "root",
-        "password": "PASSWORD",
+        "password": ".M4nt1c0R4",
         "database": "prueba_tecnica_db"
     }
 
