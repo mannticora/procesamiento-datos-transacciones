@@ -3,96 +3,90 @@
 ![ETL Pipeline](https://img.shields.io/badge/ETL-Pipeline-blue) 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-green)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-orange)
+![Dificultad](https://img.shields.io/badge/Dificultad-Intermedio-yellow)
 
 Este proyecto implementa un proceso **ETL (Extract, Transform, Load)** para cargar datos desde un archivo CSV (`data_prueba_tecnica.csv`) a una base de datos MySQL, con capacidades de consulta y transformación.
 
 ---
 
+## **⚠️ Dificultades Clave y Soluciones**
+
+### **1. Problemas con la Carga Inicial de Datos CSV**
+#### **Dificultad Principal**:
+- **Inconsistencias en el formato del CSV**: El archivo contenía valores nulos, formatos de fecha inconsistentes y tipos de datos mixtos en la columna `amount`.
+- **Problemas de conexión con MySQL**: Errores de autenticación y configuración incorrecta del puerto.
+
+
+---
+
+### **2. Transformación de Datos Complejos**
+#### **Dificultad Principal**:
+- **Normalización de tablas**: Requería separar los datos en tablas relacionadas (`companies` y `charges`) manteniendo las relaciones.
+- **Validación de estados**: Algunos valores en `status` no coincidían con los permitidos.
+
+
+---
+
+### **3. Creación de la Vista SQL Final**
+#### **Dificultad Principal**:
+- **Agregación diaria**: Calcular montos totales por día y compañía con JOIN entre tablas.
+- **Problemas de rendimiento**: La vista era lenta con grandes volúmenes de datos.
+
+
+---
+
 ## **📌 Requisitos**
 - **Python 3.11+**
-- **MySQL Server 8.0+** (local o remoto)
-- Librerías listadas en `requirements.txt`
+- **MySQL Server 8.0+**
+- **Librerías**: `mysql-connector-python`, `pandas`, `python-dotenv`
 
 ---
 
-## **⚙️ Configuración Inicial**
-### 1. **Clonar el repositorio**
-```bash
-git clone https://github.com/tu-usuario/proyecto-etl-mysql.git
-cd proyecto-etl-mysql
-```
+## **⚙️ Configuración**
+1. **Configurar `.env`**:
+   ```ini
+   DB_HOST=localhost
+   DB_USER=root
+   DB_PASSWORD=tu_contraseña
+   DB_NAME=prueba_tecnica_db
+   DATA_RAW_PATH=./data/raw/data_prueba_tecnica.csv
+   ```
 
-### 2. **Configurar variables de entorno**
-Crea un archivo `.env` en la raíz del proyecto con:
-```ini
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=tu_contraseña_mysql
-DB_NAME=prueba_tecnica_db
-DATA_RAW_PATH=./data/raw/data_prueba_tecnica.csv
-```
-
-### 3. **Instalar dependencias**
-```bash
-pip install -r requirements.txt
-```
+2. **Instalar dependencias**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ---
 
-## **🚀 Ejecución del Proyecto**
-### **Carga inicial de datos**
-```bash
-python src/data_loader.py
-```
-> Carga el archivo CSV a una tabla temporal `raw_data` en MySQL.
+## **🚀 Flujo de Ejecución**
+1. **Carga inicial**:
+   ```bash
+   python src/data_loader.py
+   ```
 
-### **Transformación y normalización**
-```bash
-python src/schema_manager.py
-```
-> Crea las tablas normalizadas (`companies` y `charges`) y carga los datos transformados.
+2. **Transformación**:
+   ```bash
+   python src/data_transformer.py
+   ```
 
-### **Consultas personalizadas**
-```bash
-python src/sql_queries.py
-```
-> Ejecuta consultas predefinidas (ej: vista de transacciones diarias).
+3. **Normalización**:
+   ```bash
+   python src/schema_manager.py
+   ```
 
-## **🔍 Consultas de Ejemplo**
-### Desde Python:
-```python
-from src.database import DatabaseManager
+4. **Consultar vista final**:
+   ```bash
+   python src/sql_queries.py
+   ```
 
-with DatabaseManager() as db:
-    # Top 5 compañías con más transacciones
-    result = db.execute_query("""
-        SELECT company_id, COUNT(*) AS total_transactions
-        FROM charges
-        GROUP BY company_id
-        ORDER BY total_transactions DESC
-        LIMIT 5
-    """, fetch=True)
-    print(result)
-```
-
-### Directamente en MySQL:
-```sql
--- Monto total por día
-SELECT * FROM daily_company_transactions;
-```
 
 ---
 
-## **🛠️ Troubleshooting**
-| **Error**                     | **Solución**                                  |
-|-------------------------------|-----------------------------------------------|
-| `Access denied for user`      | Verifica `.env` y permisos de MySQL          |
-| `CSV not found`               | Asegúrate de que la ruta en `.env` es correcta |
-| `ModuleNotFoundError`         | Ejecuta `pip install -r requirements.txt`    |
-
----
-
-## **📄 Licencia
-Este proyecto está bajo la licencia [MIT](LICENSE).
-
----
+## **💡 Lecciones Aprendidas**
+1. **Validar datos crudos antes de la carga**:
+   - Implementar checks de calidad de datos en el CSV.
+2. **Manejar conexiones a DB con contexto**:
+   - Usar `with DatabaseManager() as db:` para evitar conexiones abiertas.
+3. **Optimizar consultas SQL**:
+   - Crear índices en columnas frecuentemente consultadas.
