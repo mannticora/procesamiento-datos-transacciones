@@ -1,36 +1,57 @@
-from mysql.connector import Error
+import os
+from src.data_loader import load_raw_data
+from src.data_extractor import extract_to_parquet
+from src.data_transformer import transform_data
+from src.schema_manager import create_schema, load_transformed_data
+from src.sql_queries import create_daily_transactions_view
+from dotenv import load_dotenv
 
-from database_utils import create_db_connection, execute_sql_file
+load_dotenv()
 
 
-def create_daily_transactions_view():
-    """Crea la vista de transacciones diarias"""
-    connection = create_db_connection()
-    if connection:
-        try:
-            # Ejecutar el script SQL
-            execute_sql_file(connection, 'sql/create_view.sql')
+def run_etl_pipeline():
+    print("🚀 Iniciando proceso ETL completo\n")
 
-            # Verificar que la vista se creó
-            cursor = connection.cursor()
-            cursor.execute("""
-                SELECT table_name 
-                FROM information_schema.views 
-                WHERE table_schema = DATABASE()
-                AND table_name = 'daily_company_transactions'
-            """)
+    # 1. Carga de datos inicial
+    print("=== ETAPA 1: Cargando datos iniciales ===")
+    raw_data_path = os.getenv('DATA_RAW_PATH', './data/raw/data_prueba_tecnica.csv')
+    if not load_raw_data(raw_data_path):
+        print("Falló la carga inicial de datos")
+        return False
 
-            if cursor.fetchone():
-                print("Vista 'daily_company_transactions' creada exitosamente")
-            else:
-                print("Error: La vista no se creó correctamente")
+    # 2. Extracción a Parquet
+    print("\n=== ETAPA 2: Extrayendo datos a Parquet ===")
+    extracted_path = os.path.join(os.getenv('DATA_PROCESSED_DIR', './data/processed'), 'extracted_data.parquet')
+    if not extract_to_parquet(extracted_path):
+        print("Falló la extracción de datos")
+        return False
 
-        except Error as e:
-            print(f"Error al crear la vista: {e}")
-        finally:
-            if connection.is_connected():
-                connection.close()
+    # 3. Transformación
+    print("\n=== ETAPA 3: Transformando datos ===")
+    transformed_path = os.path.join(os.getenv('DATA_PROCESSED_DIR', './data/processed'), 'transformed_data.parquet')
+    if not transform_data(extracted_path, transformed_path):
+        print("Falló la transformación de datos")
+        return False
+
+    # 4. Creación de esquema y carga en tablas normalizadas
+    print("\n=== ETAPA 4: Creando esquema y cargando datos transformados ===")
+    if not create_schema():
+        print("Falló la creación del esquema")
+        return False
+
+    if not load_transformed_data(transformed_path):
+        print("Falló la carga de datos transformados")
+        return False
+
+    # 5. Creación de vista SQL
+    print("\n=== ETAPA 5: Creando vista de transacciones diarias ===")
+    if not create_daily_transactions_view():
+        print("Fallo la creación de la vista")
+        return False
+
+    print("\n Proceso ETL completado exitosamente!")
+    return True
 
 
 if __name__ == "__main__":
-    create_daily_transactions_view()
+    run_etl_pipeline()

@@ -1,7 +1,7 @@
 import unittest
 import pandas as pd
 import os
-from data_transformer import transform_data
+from src.data_transformer import transform_data
 
 
 class TestDataTransformer(unittest.TestCase):
