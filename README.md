@@ -3,7 +3,7 @@
 ![ETL Pipeline](https://img.shields.io/badge/ETL-Pipeline-blue) 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-green)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-orange)
-![Dificultad](https://img.shields.io/badge/Dificultad-Intermedio-yellow)
+
 
 Este proyecto implementa un proceso **ETL (Extract, Transform, Load)** para cargar datos desde un archivo CSV (`data_prueba_tecnica.csv`) a una base de datos MySQL, con capacidades de consulta y transformación.
 
