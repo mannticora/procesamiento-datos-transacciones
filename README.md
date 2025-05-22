@@ -9,7 +9,7 @@ Este proyecto implementa un proceso **ETL (Extract, Transform, Load)** para carg
 
 ---
 
-## **⚠️ Dificultades Clave y Soluciones**
+## **Dificultades Clave y Soluciones**
 
 ### **1. Problemas con la Carga Inicial de Datos CSV**
 #### **Dificultad Principal**:
