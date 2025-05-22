@@ -1,4 +1,4 @@
-# **README - Proyecto ETL para Carga y Consulta de Datos en MySQL**
+# **Proyecto ETL para Carga y Consulta de Datos en MySQL**
 
 ![ETL Pipeline](https://img.shields.io/badge/ETL-Pipeline-blue) 
 ![Python](https://img.shields.io/badge/Python-3.11%2B-green)
