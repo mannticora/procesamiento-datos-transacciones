@@ -9,7 +9,7 @@ def extract_data_from_mysql(host, user, password, database, output_format='parqu
     Args:
         host (str): localhost
         user (str): root
-        password (str): .M4nt1c0R4
+        password (str): MyNewPass1
         database (str): data_prueba_tecnica.csv
         output_format (str): data_prueba_tecnica2.csv
     """

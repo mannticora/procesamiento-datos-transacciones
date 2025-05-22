@@ -12,7 +12,7 @@ def load_data_to_mysql(csv_path, host, user, password, database):
         csv_path (str): C:\Users\ricar\OneDrive\Escritorio\data_prueba_tecnica.csv
         host (str): localhost
         user (str): root
-        password (str): .M4nt1c0R4
+        password (str): MyNewPass1
         database (str): data_prueba_tecnica
     """
 
@@ -74,7 +74,7 @@ if __name__ == "__main__":
     db_config = {
         "host": "localhost",
         "user": "root",
-        "password": ".M4nt1c0R4",
+        "password": "MyNewPass1",
         "database": "prueba_tecnica_db"
     }
 
